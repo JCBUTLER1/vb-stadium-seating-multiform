@@ -1,0 +1,129 @@
+﻿'Project:	  Project 2 – Stadium Seating
+'Description: Calculates the revenue of ticket sales
+'Programmer:  Jerrodo Butler
+'Date:		  Spring 2018
+
+Option Strict On
+Public Class frmSeating
+
+    'Set Constant values for each ticket price at the Class Level.  They can be used throughout the program and will not change.
+    Const decCLASS_A_PRICE As Decimal = 15D
+    Const decCLASS_B_PRICE As Decimal = 12D
+    Const decCLASS_C_PRICE As Decimal = 9D
+
+
+    'Procedure that is executed when the Calculate Revenue button is clicked to get the validate user input and calculate ticket revenue.
+    Private Sub CalculateRevenueToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CalculateRevenueToolStripMenuItem.Click
+
+        'Declare variables that will hold the values for the number of tickets sold (entered by user).
+        Dim intClassA_tickets As Integer
+        Dim intClassB_tickets As Integer
+        Dim intClassC_tickets As Integer
+
+        'Declare variables that will hold the revenue for each class of tickets and the total revenue.
+        Dim decClassA_Revenue As Decimal
+        Dim decClassB_Revenue As Decimal
+        Dim decClassC_Revenue As Decimal
+        Dim decTotal_Revenue As Decimal
+
+        'Run validation on Class A textbox to make sure it is not empty and that the input is a number. 
+        If txtClassA.Text <> "" Then
+
+            Try
+
+                intClassA_tickets = CInt(txtClassA.Text)
+
+                'Run validation on Class B textbox
+                If txtClassB.Text <> "" Then
+
+                    Try
+
+                        intClassB_tickets = CInt(txtClassB.Text)
+
+                        'Run validation on Class C textbox
+                        If txtClassC.Text <> "" Then
+                            Try
+                                intClassC_tickets = CInt(txtClassC.Text)
+
+                                'Run calculations after input in all three textboxes are validated.
+                                decClassA_Revenue = (decCLASS_A_PRICE * intClassA_tickets)
+                                decClassB_Revenue = (decCLASS_B_PRICE * intClassB_tickets)
+                                decClassC_Revenue = (decCLASS_C_PRICE * intClassC_tickets)
+                                decTotal_Revenue = CDec(decClassA_Revenue + decClassB_Revenue + decClassC_Revenue)
+
+                                'Assign the calculated revenues to each revenue label.
+                                lblClassA_Revenue.Text = decClassA_Revenue.ToString("c")
+                                lblClassB_Revenue.Text = decClassB_Revenue.ToString("c")
+                                lblClassC_Revenue.Text = decClassC_Revenue.ToString("c")
+                                lblTotal_Revenue.Text = decTotal_Revenue.ToString("c")
+
+                                frmSummary.lblClassA_Revenue.Text = decClassA_Revenue.ToString("c")
+                                frmSummary.lblClassB_Revenue.Text = decClassB_Revenue.ToString("c")
+                                frmSummary.lblClassC_Revenue.Text = decClassC_Revenue.ToString("c")
+                                frmSummary.lblTotal_Revenue.Text = decTotal_Revenue.ToString("c")
+
+                            Catch ex As Exception
+                                MessageBox.Show("Please enter a numeric value for Class C tickets", "Non-numeric Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                txtClassC.Focus()
+                            End Try
+                        Else
+                            MessageBox.Show("Please enter number of Class C tickets sold.", "Missing Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            txtClassC.Focus()
+                        End If
+
+                    Catch ex As Exception
+
+                        MessageBox.Show(" Please enter a numeric value for Class B tickets", "Non-numeric Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        txtClassB.Focus()
+                    End Try
+                Else
+
+                    MessageBox.Show("Please enter number of Class B tickets sold.", "Missing Data.", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    txtClassB.Focus()
+                End If
+
+            Catch ex As Exception
+                MessageBox.Show("Please enter a numeric value for Class A tickets.", "Non-numeric Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                txtClassA.Focus()
+            End Try
+
+        Else
+            MessageBox.Show("Please enter number of Class A tickets sold.", "Missing Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            txtClassA.Focus()
+        End If
+    End Sub
+
+
+    'Clear all textboxes on frmSeating.
+    Private Sub ClearToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ClearToolStripMenuItem.Click
+        txtClassA.Clear()
+        txtClassB.Clear()
+        txtClassC.Clear()
+
+        lblClassA_Revenue.Text = String.Empty
+        lblClassB_Revenue.Text = String.Empty
+        lblClassC_Revenue.Text = String.Empty
+        lblTotal_Revenue.Text = String.Empty
+
+        txtClassA.Focus()
+    End Sub
+
+
+    'Display Revenues Summary form.
+    Private Sub DisplaySummaryToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DisplaySummaryToolStripMenuItem.Click
+        frmSummary.ShowDialog()
+    End Sub
+
+
+    'Display About form.
+    Private Sub AboutToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AboutToolStripMenuItem.Click
+        AboutBox1.ShowDialog()
+    End Sub
+
+
+    'End program.
+    Private Sub ExitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExitToolStripMenuItem.Click
+        Me.Close()
+    End Sub
+
+End Class
